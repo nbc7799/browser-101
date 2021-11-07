@@ -1,0 +1,119 @@
+* {
+  box-sizing: border-box;
+  list-style: none;
+}
+
+:root {
+}
+
+body {
+  background: url(/img/background.png) no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.timer {
+  flex-basis: 40%;
+}
+
+.game-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  position: relative;
+  z-index: 0;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stop-button {
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
+  border: 4px black solid;
+}
+
+.stop-button span {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background-color: black;
+}
+
+.remaining-time {
+  width: 200px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: white;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  border: 4px black solid;
+}
+
+.catched {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px black solid;
+  background-color: darkorange;
+  color: white;
+  font-size: 46px;
+  margin: 20px 0px;
+  font-weight: 700;
+}
+
+.target-container {
+  flex-basis: 60%;
+}
+
+.modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  margin: auto;
+  z-index: 15;
+  top: 40%;
+}
+
+.replay-btn {
+  width: 100px;
+  height: 100px;
+  color: black;
+  font-size: 50px;
+  border-radius: 20px;
+  border: 4px black solid;
+}
+
+.game-result {
+  font-size: 50px;
+  font-weight: 700;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
