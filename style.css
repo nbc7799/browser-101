@@ -19,6 +19,7 @@ button {
   cursor: pointer;
 }
 
+/* Timer */
 .timer {
   flex-basis: 40%;
 }
@@ -38,14 +39,32 @@ button {
   align-items: center;
 }
 
-.stop-button {
+.play-btn {
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+  border-radius: 20px;
+  border: 4px black solid;
+}
+
+.play-btn:hover {
+  transition: transform 300ms ease-in;
+  transform: scale(1.1);
+}
+
+.stop-btn {
   width: 100px;
   height: 100px;
   border-radius: 20px;
   border: 4px black solid;
 }
 
-.stop-button span {
+.stop-btn:hover {
+  transition: transform 300ms ease-in;
+  transform: scale(1.1);
+}
+
+.stop-btn span {
   display: inline-block;
   width: 50px;
   height: 50px;
@@ -81,10 +100,27 @@ button {
   font-weight: 700;
 }
 
+/* Target Container */
 .target-container {
   flex-basis: 60%;
 }
 
+.bug,
+.carrot {
+  background-color: transparent;
+}
+
+.bug img {
+  width: 70px;
+  height: 70px;
+}
+
+.carrot img {
+  width: 90px;
+  height: 100px;
+}
+
+/* Modal display */
 .modal {
   position: absolute;
   display: flex;
@@ -109,6 +145,11 @@ button {
   border: 4px black solid;
 }
 
+.replay-btn:hover {
+  transition: transform 300ms ease-in;
+  transform: scale(1.1);
+}
+
 .game-result {
   font-size: 50px;
   font-weight: 700;
@@ -116,4 +157,8 @@ button {
   padding: 20px;
   display: flex;
   justify-content: space-between;
+}
+
+.hide {
+  display: none;
 }

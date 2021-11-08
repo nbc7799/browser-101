@@ -15,23 +15,24 @@
   <body>
     <section class="game-page">
       <header class="timer">
-        <button class="stop-button"><span></span></button>
-        <div class="remaining-time">00:02</div>
+        <button class="play-btn"><i class="fas fa-play"></i></button>
+        <button class="stop-btn hide"><span></span></button>
+        <div class="remaining-time">00:5</div>
         <div class="catched">15</div>
       </header>
       <section class="target-container">
-        <div class="bug"><img src="img/bug.png" alt="bug" /></div>
-        <div class="carrot"><img src="img/carrot.png" alt="carrot" /></div>
+        <button class="bug"><img src="img/bug.png" alt="bug" /></button>
+        <button class="carrot">
+          <img src="img/carrot.png" alt="carrot" />
+        </button>
       </section>
     </section>
-    <div class="modal">
+    <div class="modal hide">
       <button class="replay-btn">
         <i class="fas fa-undo-alt"></i>
       </button>
       <div class="game-result">
-        <span>🥕</span>
-        <span>REPLAY</span>
-        <span>⁉</span>
+        <span class="result-text"></span>
       </div>
     </div>
   </body>
