@@ -6,11 +6,18 @@
 :root {
 }
 
+html {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   background: url(/img/background.png) no-repeat;
   background-size: cover;
   display: flex;
   justify-content: center;
+  height: 100%;
+  margin: auto;
 }
 
 button {
@@ -26,11 +33,10 @@ button {
 
 .game-page {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 40px;
-  position: relative;
-  z-index: 0;
+  padding: 30px;
 }
 
 .timer {
@@ -101,33 +107,48 @@ button {
 }
 
 /* Target Container */
-.target-container {
+.field {
   flex-basis: 60%;
+  width: 100%;
+  height: 60%;
+  position: relative;
 }
 
-.bug,
+.container {
+  width: 100%;
+  height: 100%;
+}
+.bug {
+  background-color: transparent;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  position: absolute;
+}
+
 .carrot {
   background-color: transparent;
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
+  position: absolute;
 }
 
-.bug img {
-  width: 70px;
-  height: 70px;
-}
-
-.carrot img {
-  width: 90px;
-  height: 100px;
+.bug:hover,
+.carrot:hover {
+  transition: transform 300ms ease-in;
+  transform: scale(1.2);
 }
 
 /* Modal display */
-.modal {
+.stop-modal,
+.result-modal {
   position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 600px;
+  width: 700px;
   height: 400px;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 20px;
@@ -136,7 +157,8 @@ button {
   top: 40%;
 }
 
-.replay-btn {
+.continue-btn,
+.reset-btn {
   width: 100px;
   height: 100px;
   color: black;
@@ -145,7 +167,8 @@ button {
   border: 4px black solid;
 }
 
-.replay-btn:hover {
+.continue-btn:hover,
+.reset-btn:hover {
   transition: transform 300ms ease-in;
   transform: scale(1.1);
 }
