@@ -1,88 +1,70 @@
+'user strict';
+
 // 1. 플레이버튼 클릭하면 게임시작
 // 2. 게임시작하면 벌레들 랜덤한 위치에 배치 + 남은시간 줄어듬
-// 3. 당근클릭시 당근사라짐 + 카운터 올라감
+// 3. 당근클릭시 당근사라짐 + 카운터 내려감
 // 4. 벌레클릭시 시간멈춤 + 실패 모달창 뜸
 // 5. 리플레이버튼 클릭시 게임 재시작
 
 
+const field = document.querySelector('.game__field')
+const container = document.querySelector('.container')
+const fieldRect = container.getBoundingClientRect();
 
-'user strict';
-
-// - 함수 타이머 {
-// 	시간10초 나타나고 일초씩 감소
-// 	셋타임아웃써서 10초뒤에 리플레이 모달나타나게, 클래스이용
-
-const remainTime = document.querySelector('.remaining-time')
-let currentSecond = 10;
-let playTimer 
+const gameTimer = document.querySelector('.game__timer')
+const gameScore = document.querySelector('.game__score')
 const resultText = document.querySelector('.result-text')
 const continueText = document.querySelector('.continue-text')
 
+const playBtn = document.querySelector('.play-btn')
+const stopBtn = document.querySelector('.stop-btn')
+const continueBtn = document.querySelector('.continue-btn')
+const resetBtn = document.querySelector('.reset-btn')
+
+const CARROT_SIZE = 120;
+//여기서 위에꺼만 대문자로 쓴이유는 절대 변하지않는 값들을 가르킬때 쓰임
+let currentCarrot = 10
+let currentSecond = 10;
+let playTimer = undefined;
+// let playTimer; vs let playTimer = undefined; 이 둘은 같은의미다
+let started = false;
+
+
+
+/* --------------------funtion 시작 --------------------*/
+
+// - 함수 타이머: 시간10초 나타나고 일초씩 감소
 function myTimer() {
+    //playTimer에다 할당하는 이유는 setinterval이 게임이 끝나도 무한
+    //반복하지 않게 하기위함 위에 값을 지정하지않았으니 끝나게됨
         playTimer = setInterval(() => {
             currentSecond = currentSecond -1;
-            remainTime.innerHTML = `00:0${currentSecond}`
+            gameTimerHtml()
         if( currentSecond <= 0) {
             clearInterval(playTimer)
             modal(currentSecond)
-        }
-    }, 1000);
-        
-    }
+            return;
+            }
+        }, 1000);  
+}
 
-// - 플레이버튼 클릭시 아이템랜덤배치, 타이머실행
-const playBtn = document.querySelector('.play-btn')
-playBtn.addEventListener('click', () => {
-    playBtn.classList.add('hide')
-    stopBtn.classList.remove('hide')
-    initGame()
-    myTimer()
-})
+function gameTimerHtml() {
+    gameTimer.innerHTML = `00:${currentSecond}`
+}
 
-
-
-// 스탑 버튼 클릭시 모달
-const stopBtn = document.querySelector('.stop-btn')
-stopBtn.addEventListener('click', () => {
-    stopModal.classList.remove('hide');
-    resultModal.classList.add('hide')
-    playBtn.classList.add('hide')
-    stopBtn.classList.add('hide')
-    clearInterval(playTimer)
-    modal(currentSecond)
-})
-
-
-// - 리플레이버튼.이벤리스너 클릭시
-const continueBtn = document.querySelector('.continue-btn')
-const resetBtn = document.querySelector('.reset-btn')
-continueBtn.addEventListener('click', () => {
-    stopModal.classList.add('hide');
-    playBtn.classList.add('hide')
-    stopBtn.classList.remove('hide')
-    myTimer()
-    remainTime.innerHTML = `00:${currentSecond}`
-})
-
-// resetBtn.addEventListener('click', ()=> {
-
-// })
-
-// - 함수 벌레당근배치(플레이버튼시,재시작시) {
-const field = document.querySelector('.field')
-
-const fieldRect = field.getBoundingClientRect();
-const CARROT_SIZE = 120;
-
-
-//벌레와 당근을 생성한뒤 field에 추가해줌
+function stopGameTimer() {
+    clearInterval(playTimer);
+}
+// 초기게임플레이 버튼 작동시
 function initGame() {
+    gameScore.classList.remove('hide')
+    gameTimer.classList.remove('hide')
+    container.innerHTML = '';
+    gameScore.innerHTML = currentCarrot
     addItem('carrot', 10, 'img/carrot.png');
     addItem('bug', 10, 'img/bug.png');
 }
-
-const container = document.querySelector('.container')
-
+// 아이템랜덤좌표로 만듬
 function addItem(className, count, imgPath) {
     const x1 = 0
     const y1 = 0
@@ -97,116 +79,160 @@ function addItem(className, count, imgPath) {
         const y = randomNumber(y1, y2);
         item.style.left = `${x}px`
         item.style.top = `${y}px`
-
         container.appendChild(item);
         field.appendChild(container)
     }
     return container
 }
-
 // 랜덤한 숫자 생성함수
 function randomNumber(min, max){
     return Math.floor(Math.random() * (max-min) + min);
 }
 
-// 당근,벌레클릭 이벤트 
-
-const catched = document.querySelector('.catched')
-let currentCarrot = 10
-
-field.addEventListener('click', (e) => {
-    if(e.target.className === 'bug' && e.target.tagName === "IMG"){
-        stopModal.classList.add('hide')
-        stopBtn.classList.add('hide')
-        resultModal.classList.remove('hide')
-        resultText.innerHTML = `You Lostㅠㅠ`
-        clearInterval(playTimer)
-        
-    } else if(e.target.className === 'carrot' && e.target.tagName === "IMG"){
-        container.removeChild(e.target)
-        currentCarrot = currentCarrot - 1
-        catched.innerHTML = `${currentCarrot}`
-    } if(currentCarrot === 0){
-        clearInterval(playTimer)
-        reModal(currentCarrot)
-    }
-})
-
-const stopModal = document.querySelector('.stop-modal')
-const resultModal = document.querySelector('.result-modal')
-
-//resultModal
-function reModal(currentCarrot) {
-    stopModal.classList.add('hide')
-    resultModal.classList.remove('hide')
-    resultText.innerHTML = 'You win!!'
-    catched.innerHTML = `${currentCarrot}`
-    // else if(currentSecond <= 10 && resultText.innerHTML === `You win!!`) {
-    //     resetBtn.addEventListener('click', ()=>{
-    //         initGame();
-    //         myTimer();
-    //         remainTime.innerHTML = `00:${currentSecond}`
-    //     })
-    // }
+function startGame() {
+    initGame();
+    showStopBtn();
+    myTimer()
+    playSound(bgSound)
 }
+
+function stopGame() {
+    stopGameTimer();
+}
+
+function showStopBtn() {
+    playBtn.classList.add('hide')
+    stopBtn.classList.remove('hide')
+
+}
+
+function hideStopBtn(){
+    playBtn.classList.remove('hide')
+    stopBtn.classList.add('hide')
+}
+
 
 // 모달창 시간남았을때와 시간다됐을때
 function modal(currentSecond) {
     if(currentSecond <= 0){
-        stopBtn.classList.add('hide')
-        resultModal.classList.remove('hide')
-        stopModal.classList.add('hide')
-        resultText.innerHTML = 'You Lostㅜㅜ'
-    }else if(currentSecond <= 10){
-       stopModal.classList.remove('hide')
-       resultModal.classList.add('hide')
-       continueText.innerHTML = `🥕Continue ?`
+        showLostModal();
+        pauseSound(bgSound)
+        playSound(bugSound)
+    }else {
+        showContineModal()
     }
 }
 
-resetBtn.addEventListener('click', () => {
-    console.dir(container)
-    container.innerHTML = ''
-    playBtn.classList.remove('hide')
+function showContineModal() {
+    stopModal.classList.remove('hide');
+    resultModal.classList.add('hide')
+    playBtn.classList.add('hide')
     stopBtn.classList.add('hide')
+    continueText.innerHTML = `🥕Continue ?`
+}
+
+function showLostModal() {
+    stopBtn.classList.add('hide')
+    resultModal.classList.remove('hide')
+    stopModal.classList.add('hide')
+    resultText.innerHTML = 'You Lostㅜㅜ'
+}
+
+function showWinModal(currentCarrot) {
+    stopModal.classList.add('hide')
+    resultModal.classList.remove('hide')
+    resultText.innerHTML = 'You win!!'
+    gameScore.innerHTML = `${currentCarrot}`
+}
+
+function clickContinueBtn() {
+    stopModal.classList.add('hide');
+    showStopBtn();
+    gameTimerHtml()
+}
+
+function clickResetBtn() {
+    container.innerHTML = '';
+    hideStopBtn()
+    gameScore.classList.add('hide')
+    gameTimer.classList.add('hide')
     resultModal.classList.add('hide')
     stopModal.classList.add('hide')
     currentSecond = 10
-    remainTime.innerHTML = `00:${10}`
+    gameTimerHtml()
     currentCarrot = 10
-    catched.innerHTML = `${10}`
+    gameScore.innerHTML = `${10}`
+}
+
+// 사운드 함수
+function playSound(sound) {
+    sound.currentTime = 0
+    sound.play();
+}
+function pauseSound(sound) {
+    sound.pause();
+}
+const carrotSound = new Audio('./sound/carrot_pull.mp3')
+const bugSound = new Audio('./sound/bug_pull.mp3')
+const bgSound = new Audio('./sound/bg.mp3')
+const windSound = new Audio('./sound/game_win.mp3')
+const stopModal = document.querySelector('.stop-modal')
+const resultModal = document.querySelector('.result-modal')
+
+
+
+/* --------------------이벤트 시작 --------------------*/
+
+
+// - 플레이버튼 클릭시 아이템랜덤배치, 타이머실행
+playBtn.addEventListener('click', () => {
+    if(started) {
+        stopGame();
+    }else {
+        startGame();
+    }
 })
 
-// function items() {
-//     for(let i=0; i < 20; i++){
-//         data.push('아이템' + i);
-//         console.log(data)
-//     }
-//     for(let i=0; i<data.length; i++) {
-//        const item = creatItem(data[i])
-//        targetContainer.appendChild(item)
-//     }
-// }
 
-// function creatItem(i) {
-//     const bug = document.createElement('img')
-//     bug.setAttribute('class', 'bug')
-//     bug.setAttribute('src',`img/bug.png`)
-//     const carrot = document.createElement('img')
-//     carrot.setAttribute('class', 'carrot')
-//     carrot.setAttribute('src',`img/carrot.png`)
-// }
+// 당근,벌레클릭 이벤트 
+container.addEventListener('click', (e) => {
+    if(e.target.className === 'bug' && e.target.tagName === "IMG"){
+        showLostModal()
+        pauseSound(bgSound)
+        clearInterval(playTimer)
+        playSound(bugSound)
+    } else if(e.target.className === 'carrot' && e.target.tagName === "IMG"){
+        container.removeChild(e.target)
+        currentCarrot = currentCarrot - 1
+        playSound(carrotSound)
+        gameScore.innerHTML = `${currentCarrot}`
+    } if(currentCarrot === 0){
+        clearInterval(playTimer)
+        pauseSound(bgSound)
+        playSound(windSound)
+        showWinModal(currentCarrot)
+    }
+})
 
 
+// 재시작 버튼 이벤트
+resetBtn.addEventListener('click', () => {
+    clickResetBtn()
+})
 
-// function itemsRandom(){
-//     const x = bug.getBoundingClientRect().left
-//     const y = bug.getBoundingClientRect().top
-    
-//     console.log(x, y)
-//     // const numbers = Math.floor(Math.random()*20)
-//     // console.log(numbers)
-// }
+// 스탑 버튼 클릭시 모달
+stopBtn.addEventListener('click', () => {
+    clearInterval(playTimer);
+    modal(currentSecond);
+    pauseSound(bgSound);
+})
 
+
+// - 컨티뉴버튼 클릭시
+continueBtn.addEventListener('click', () => {
+    clickContinueBtn();
+    myTimer();
+    playSound(bgSound)
+})
 
 

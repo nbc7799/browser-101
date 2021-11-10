@@ -26,12 +26,7 @@ button {
   cursor: pointer;
 }
 
-/* Timer */
-.timer {
-  flex-basis: 40%;
-}
-
-.game-page {
+.game {
   width: 100%;
   height: 100%;
   display: flex;
@@ -39,7 +34,9 @@ button {
   padding: 30px;
 }
 
-.timer {
+/* Game Header */
+.game__header {
+  flex-basis: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,7 +75,7 @@ button {
   background-color: black;
 }
 
-.remaining-time {
+.game__timer {
   width: 200px;
   height: 80px;
   border-radius: 10px;
@@ -91,7 +88,7 @@ button {
   border: 4px black solid;
 }
 
-.catched {
+.game__score {
   width: 90px;
   height: 90px;
   border-radius: 50%;
@@ -107,7 +104,7 @@ button {
 }
 
 /* Target Container */
-.field {
+.game__field {
   flex-basis: 60%;
   width: 100%;
   height: 60%;
@@ -118,6 +115,7 @@ button {
   width: 100%;
   height: 100%;
 }
+
 .bug {
   background-color: transparent;
   width: 100px;
@@ -154,7 +152,7 @@ button {
   border-radius: 20px;
   margin: auto;
   z-index: 15;
-  top: 40%;
+  top: 35%;
 }
 
 .continue-btn,
