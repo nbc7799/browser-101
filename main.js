@@ -13,11 +13,11 @@ const fieldRect = container.getBoundingClientRect();
 
 const gameTimer = document.querySelector('.game__timer')
 const gameScore = document.querySelector('.game__score')
-const resultText = document.querySelector('.result-text')
-const continueText = document.querySelector('.continue-text')
-
 const playBtn = document.querySelector('.play-btn')
 const stopBtn = document.querySelector('.stop-btn')
+
+const resultText = document.querySelector('.result-text')
+const continueText = document.querySelector('.continue-text')
 const continueBtn = document.querySelector('.continue-btn')
 const resetBtn = document.querySelector('.reset-btn')
 
@@ -52,6 +52,10 @@ function gameTimerHtml() {
     gameTimer.innerHTML = `00:${currentSecond}`
 }
 
+function ScoreHtml() {
+    gameScore.innerHTML = `${currentCarrot}`
+}
+
 function stopGameTimer() {
     clearInterval(playTimer);
 }
@@ -60,7 +64,7 @@ function initGame() {
     gameScore.classList.remove('hide')
     gameTimer.classList.remove('hide')
     container.innerHTML = '';
-    gameScore.innerHTML = currentCarrot
+    ScoreHtml()
     addItem('carrot', 10, 'img/carrot.png');
     addItem('bug', 10, 'img/bug.png');
 }
@@ -142,7 +146,7 @@ function showWinModal(currentCarrot) {
     stopModal.classList.add('hide')
     resultModal.classList.remove('hide')
     resultText.innerHTML = 'You win!!'
-    gameScore.innerHTML = `${currentCarrot}`
+    ScoreHtml()
 }
 
 function clickContinueBtn() {
@@ -161,7 +165,7 @@ function clickResetBtn() {
     currentSecond = 10
     gameTimerHtml()
     currentCarrot = 10
-    gameScore.innerHTML = `${10}`
+    ScoreHtml()
 }
 
 // 사운드 함수
@@ -205,7 +209,7 @@ container.addEventListener('click', (e) => {
         container.removeChild(e.target)
         currentCarrot = currentCarrot - 1
         playSound(carrotSound)
-        gameScore.innerHTML = `${currentCarrot}`
+        ScoreHtml()
     } if(currentCarrot === 0){
         clearInterval(playTimer)
         pauseSound(bgSound)
